@@ -8,7 +8,7 @@ from cleverhans.attacks_tf import jacobian_graph
 from cleverhans.utils import other_classes
 import tensorflow as tf
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import RandomForestClassifier 
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score , roc_curve , auc , f1_score
@@ -81,8 +81,13 @@ full2 = pd.get_dummies(full , drop_first=False)
 features = list(full2.columns[:-5])
 
 
-y_train = np.array(full2[0:df.shape[0]][[ 'label_normal', 'label_dos', 'label_probe', 'label_r2l', 'label_u2r']])
-X_train = full2[0:df.shape[0]][features]
+y_train = np.array(
+	full2[: df.shape[0]][
+		['label_normal', 'label_dos', 'label_probe', 'label_r2l', 'label_u2r']
+	]
+)
+
+X_train = full2[:df.shape[0]][features]
 y_test = np.array(full2[df.shape[0]:][['label_normal', 'label_dos', 'label_probe', 'label_r2l', 'label_u2r']])
 X_test = full2[df.shape[0]:][features]
 
@@ -95,7 +100,7 @@ le = LabelEncoder()
 le.fit(labels)
 
 y_full = le.transform(full.label)
-y_train_l = y_full[0:df.shape[0]]
+y_train_l = y_full[:df.shape[0]]
 y_test_l = y_full[df.shape[0]:]
 
 print("Training dataset shape", X_train_scaled.shape , y_train.shape)
@@ -115,10 +120,10 @@ def mlp_model():
 	model.summary()
 	return  model
 
-def  evaluate():
+def evaluate():
 	eval_params = {'batch_size ': FLAGS.batch_size}
 	accuracy = model_eval(sess , x, y, predictions , X_test_scaled , y_test , args= eval_params)
-	print('Test  accuracy  on  legitimate  test  examples: ' + str(accuracy))
+	print(f'Test  accuracy  on  legitimate  test  examples: {str(accuracy)}')
 
 
 x = tf.placeholder(tf.float32 , shape=(None ,X_train_scaled.shape[1]))

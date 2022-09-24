@@ -42,11 +42,8 @@ def loaddata(fileName):
         #back, nor, bot
         try:
 
-            if "Background" in label:
+            if "Background" in label or "Normal" in label:
                 label=0
-
-            elif "Normal" in label:
-                label = 0
 
             elif "Botnet" in label:
                 label = 1
@@ -68,19 +65,17 @@ def loaddata(fileName):
                     #print("HI")
                     flag=1
 
-            else:
-                #Test dataset
-                if label==0 and count3<5001:
-                    #print("H")
-                    xdataT.append([float(dur), protoDict[proto], int(Sport), int(Dport), Sip, Dip, int(totP), int(totB), stateDict[state]])
-                    ydataT.append(label)
-                    count3+=1
-                elif label==1 and count4<5001:
-                    xdataT.append([float(dur), protoDict[proto], int(Sport), int(Dport), Sip, Dip, int(totP), int(totB), stateDict[state]])
-                    ydataT.append(label)
-                    count4 += 1
-                elif count3>4999 and count4>4999:
-                    break
+            elif label==0 and count3<5001:
+                #print("H")
+                xdataT.append([float(dur), protoDict[proto], int(Sport), int(Dport), Sip, Dip, int(totP), int(totB), stateDict[state]])
+                ydataT.append(label)
+                count3+=1
+            elif label==1 and count4<5001:
+                xdataT.append([float(dur), protoDict[proto], int(Sport), int(Dport), Sip, Dip, int(totP), int(totB), stateDict[state]])
+                ydataT.append(label)
+                count4 += 1
+            elif count3>4999 and count4>4999:
+                break
         except:
             continue
 

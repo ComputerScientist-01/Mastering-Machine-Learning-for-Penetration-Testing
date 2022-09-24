@@ -17,12 +17,10 @@ def generator(z, out_dim, n_units=128, reuse=False, alpha=0.01):
         h1 = tf.layers.dense(z, n_units, activation=None)
         # Leaky ReLU
         h1 = tf.maximum(alpha * h1, h1)
-        
+
         # Logits and tanh output
         logits = tf.layers.dense(h1, out_dim, activation=None)
-        out = tf.tanh(logits)
-        
-        return out
+        return tf.tanh(logits)
         
         
 def discriminator(x, n_units=128, reuse=False, alpha=0.01):
@@ -74,7 +72,7 @@ d_loss = d_loss_real + d_loss_fake
 g_loss = tf.reduce_mean(
              tf.nn.sigmoid_cross_entropy_with_logits(logits=d_logits_fake,
                                                      labels=tf.ones_like(d_logits_fake)))
-                                                     
+
 # Optimizers
 learning_rate = 0.002
 
